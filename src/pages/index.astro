@@ -1,10 +1,25 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+import { getSession } from 'auth-astro/server';
+
+const session = await getSession(Astro.request) as any;
 ---
 
 <Layout title="Creator Awards">
 	<main>
+		{!session ? (
+			<button id="button-twitch">
+				Sign in Twitch
+			</button>
+		) : (
+			<div>
+				<p>Welcome back, {session?.user.name}!</p>
+				<button id="button-twitch-out">
+					Sign out
+				</button>
+			</div>
+		)}
 		<svg
 			class="astro-a"
 			width="495"
@@ -121,3 +136,21 @@ import Card from '../components/Card.astro';
 		padding: 0;
 	}
 </style>
+
+<script>
+	const { signIn, signOut } = await import('auth-astro/client');
+
+	const $button = document.querySelector('#button-twitch')
+	$button?.addEventListener('click', async (event) => {
+		event.preventDefault();
+		await signIn('twitch', {
+			callbackUrl: '/',
+		});
+	});
+
+	const $buttonOut = document.querySelector('#button-twitch-out')
+	$buttonOut?.addEventListener('click', async (event) => {
+		event.preventDefault();
+		await signOut();
+	});
+</script>
