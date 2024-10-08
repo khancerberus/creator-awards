@@ -14,7 +14,7 @@ const session = await getSession(Astro.request) as any;
 			</button>
 		) : (
 			<div>
-				<p>Welcome back, {session?.user.name}!</p>
+				<p>Welcome back, {session?.user?.name}!</p>
 				<button id="button-twitch-out">
 					Sign out
 				</button>
@@ -144,7 +144,7 @@ const session = await getSession(Astro.request) as any;
 	$button?.addEventListener('click', async (event) => {
 		event.preventDefault();
 		await signIn('twitch', {
-			callbackUrl: '/',
+			callbackUrl: '/signup?redirect=/ticket',
 		});
 	});
 
