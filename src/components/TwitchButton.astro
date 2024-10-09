@@ -1,0 +1,45 @@
+---
+import { getSession } from 'auth-astro/server'
+
+const session = await getSession(Astro.request)
+---
+
+{!session ? (
+	<button id="login">
+		<img src="/login-twitch-icon.svg" alt="Twitch logo" />
+		Iniciar sesión
+	</button>
+) : (
+	<button id="logout">
+		<img src="/login-twitch-icon.svg" alt="Twitch logo" />
+		Cerrar sesión
+	</button>
+)}
+
+<style>
+	#login {
+		@apply flex justify-center align-middle items-center gap-2 rounded-md px-3 py-1 bg-[#5c16c5] hover:bg-[#330c6e] transition-colors duration-200
+	}
+
+	#logout {
+		@apply flex justify-center align-middle items-center gap-2 rounded-md px-3 py-1 bg-[#d44] hover:bg-[#b11] transition-colors duration-200
+	}
+</style>
+
+<script>
+	const { signIn, signOut } = await import('auth-astro/client');
+
+	const $button = document.querySelector('#login')
+	$button?.addEventListener('click', async (event) => {
+		event.preventDefault();
+		await signIn('twitch', {
+			callbackUrl: `/signup`
+		});
+	});
+
+	const $buttonOut = document.querySelector('#logout')
+	$buttonOut?.addEventListener('click', async (event) => {
+		event.preventDefault();
+		await signOut();
+	});
+</script>
