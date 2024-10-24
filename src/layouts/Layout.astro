@@ -19,7 +19,7 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="flex justify-center">
+  <body class="flex flex-col items-center">
     <ErrorDisplay client:load />
     <slot />
   </body>
