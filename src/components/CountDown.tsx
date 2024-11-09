@@ -1,6 +1,11 @@
-import { useState } from "react"
+import { useState } from "react";
 
-const endDate = new Date('2025-01-15');
+interface PanelProps {
+  value: number;
+  label: string;
+}
+
+const endDate = new Date("2025-01-15");
 
 const calculateTimeLeft = () => {
   const difference = +endDate - +new Date();
@@ -8,7 +13,7 @@ const calculateTimeLeft = () => {
     days: 0,
     hours: 0,
     minutes: 0,
-    seconds: 0
+    seconds: 0,
   };
 
   if (difference > 0) {
@@ -16,12 +21,27 @@ const calculateTimeLeft = () => {
       days: Math.floor(difference / (1000 * 60 * 60 * 24)),
       hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
       minutes: Math.floor((difference / 1000 / 60) % 60),
-      seconds: Math.floor((difference / 1000) % 60)
+      seconds: Math.floor((difference / 1000) % 60),
     };
   }
 
   return timeLeft;
 };
+
+const Panel = ({ value, label }: PanelProps) => (
+  <div
+    className="flex flex-col items-center w-[10rem] px-2 py-6 rounded-md border-2 bg-[#090907]"
+    style={{
+      borderImageSlice: 1,
+      borderImageSource:
+        "linear-gradient(90deg,#1a0042 0%,#934aff 39.57%,#bf94ff 100%)",
+      boxShadow: "0 0 5px 0 #bf94ff",
+    }}
+  >
+    <h2 className="text-7xl font-semibold">{value}</h2>
+    <p className="text-2xl">{label}</p>
+  </div>
+);
 
 export const CountDown = () => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -31,26 +51,11 @@ export const CountDown = () => {
   }, 1000);
 
   return (
-    <div className="flex gap-12">
-      <div className="flex flex-col items-center w-[10rem] bg-gradient-to-b from-[#5A3F66] to-[#FFF0] px-2 py-6 rounded-md">
-        <h2 className="text-7xl font-semibold">{timeLeft.days}</h2>
-        <p className="text-2xl">Días</p>
-      </div>
-
-      <div className="flex flex-col items-center w-[10rem] bg-gradient-to-b from-[#5A3F66] to-[#FFF0] px-2 py-6 rounded-md">
-        <h2 className="text-7xl font-semibold">{timeLeft.hours}</h2>
-        <p className="text-2xl">Horas</p>
-      </div>
-
-      <div className="flex flex-col items-center w-[10rem] bg-gradient-to-b from-[#5A3F66] to-[#FFF0] px-2 py-6 rounded-md">
-        <h2 className="text-7xl font-semibold">{timeLeft.minutes}</h2>
-        <p className="text-2xl">Minutos</p>
-      </div>
-
-      <div className="flex flex-col items-center w-[10rem] bg-gradient-to-b from-[#5A3F66] to-[#FFF0] px-2 py-6 rounded-md">
-        <h2 className="text-7xl font-semibold">{timeLeft.seconds}</h2>
-        <p className="text-2xl">Segundos</p>
-      </div>
+    <div className="flex justify-center items-center gap-12">
+      <Panel value={timeLeft.days} label="Días" />
+      <Panel value={timeLeft.hours} label="Horas" />
+      <Panel value={timeLeft.minutes} label="Minutos" />
+      <Panel value={timeLeft.seconds} label="Segundos" />
     </div>
-  )
-}
+  );
+};
