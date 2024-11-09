@@ -6,11 +6,22 @@ import { CountDown } from '../components/CountDown';
 
 <Layout title="Creator Awards">
     <Navigator />
-    <main class="flex flex-col items-center justify-center gap-7" style="height: calc(100vh - (130px*2))">
-		<div class="absolute -z-10 opacity-30">
-			<img src="/logo_final_ca.png" />
-		</div>
-		<h3 class="text-4xl">Algo grande está en camino!</h3>
+    <main
+        class="flex flex-col items-center justify-center gap-7"
+        style="height: calc(100vh - (130px*2))"
+    >
+        <div class="absolute -z-10 opacity-20">
+            <img src="/logo_final_ca.png" />
+        </div>
+        <div
+            class="absolute -z-10 rounded-full mt-24"
+            style={{
+                boxShadow: '0 0 80px 50px #bf94ff',
+                width: '500px',
+            }}
+        >
+        </div>
+        <h3 class="text-4xl">Algo grande está en camino!</h3>
         <CountDown client:load />
     </main>
 </Layout>
